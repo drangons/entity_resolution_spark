@@ -27,6 +27,8 @@ Hybrid approach
 Edit distance (s,t): The number of minimum edit operation (Insertion,Deletion,Substitution) to tranform s to t. Each operation are wieghted.
 
 Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension penality and L is the length of the gap.
+
+
 |Algorithm| Applicability|
 |---------|---------------|
 |Jaro-winkler|works best for small words (First name or last name)|
