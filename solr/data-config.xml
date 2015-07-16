@@ -1,0 +1,20 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/movies" 
+              user="postgres" 
+              password="test"
+	      readOnly="true" autoCommit="false" transactionIsolation="TRANSACTION_READ_COMMITTED" holdability="CLOSE_CURSORS_AT_COMMIT"/>
+  <document>
+    <entity name="movies" 
+            query="select movieid,title,year,genres,others from movie;">
+			<field column="movieid" name="id" />
+			<field column="title" name="title" /> 
+			<field column="year" name="year"/>
+			<field column="genres" name="genre" />
+			<field column="others" name="other" />
+    </entity>
+  </document>
+
+</dataConfig>
+
