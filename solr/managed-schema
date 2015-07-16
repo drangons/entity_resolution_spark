@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--Dikshtih 15.06 Inital version -->
+
+<!-- 
+
+
+
+
+
+-->
+<schema name="movie-database" version="1.0">
+	
+	<!-- required fields -->
+	<field name="id" type="string" indexed="true" stored="true"  multiValued="false" required="true" />
+	<field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
+	<field name="_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+	
+	<!-- For our data -->
+	<field name="movieid" type="string" indexed="true" stored="true"  />
+	<field name="title" type="text_title" stored="true" indexed="true" termVectors="true" termPositions="true" termOffsets="true" />
+	<field name="year" type="string" stored="true" indexed="true"/>
+	<field name="genre" type="string" stored="true" indexed="true" multiValued="true"/>
+	<field name="other" type="string" stored="true" indexed="true"/>
+	<field name="genre_text" type="text_spell" stored="true" indexed="true" multiValued="true"/>
+	<!--Now we use copy fileds to copy data and interpret in different way -->
+	<copyField source="genre" dest="genre_text"/> <!-- for spell check -->
+	<copyField source="*" dest="_text"/>
+
+        <!-- TODO : add lowercase , this will be picked by searchcomponent  -->
+        <fieldType name="text_spell" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+	<analyzer type="index">
+    <tokenizer class="solr.StandardTokenizerFactory"/>
+    <!--<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>-->
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <!--<filter class="solr.StandardFilterFactory"/>-->
+  </analyzer>
+  <analyzer type="query">
+    <tokenizer class="solr.StandardTokenizerFactory"/>
+    <!--<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/> -->
+    <!--<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>-->
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <!-- <filter class="solr.StandardFilterFactory"/> -->
+  </analyzer>
+</fieldType>
+		
+	<uniqueKey>id</uniqueKey>
+	<!-- analysis of title field -->
+	<!-- using N-gram and tf.idf technique -->
+	<fieldType name="text_title" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+		<analyzer type="index">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+             pattern="[-.\(\)']" replacement=""/> <!-- remove all unwanted characters -->
+			 <!-- We are tokenizing the string and removing the stop words for this example -->
+			 <!--  
+			 <tokenizer class="solr.StandardTokenizerFactory"/>
+			 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+			 	
+			 --> 
+			<tokenizer class="solr.NGramTokenizerFactory" minGramSize="4" maxGramSize="10"/> <!-- generate ngram for the tokens -->
+			<filter class="solr.LowerCaseFilterFactory"/> <!-- -convert to lowercase -->
+		</analyzer>
+		<analyzer type="query">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+					 pattern="[-.\(\)']" replacement=""/>
+			<tokenizer class="solr.NGramTokenizerFactory" minGramSize="4" maxGramSize="10"/>
+			<filter class="solr.LowerCaseFilterFactory"/>
+		</analyzer>
+	</fieldType>
+	<!-- analysis for genre field -->
+	<!-- use the character ngram and jarowinkler distance-->
+	
+	
+	<!-- specify no special processing for string -->
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />	
+	<!-- use the standard processing for text field, just to see the difference of removing stop words -->
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <!-- in this example, we will only use synonyms at query time
+        <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+        -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+  <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/> 
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>	
+   <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+
+        <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true"/>
+
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+        <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
+
+        <fieldType name="tdates" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0" multiValued="true"/>
+
+        <fieldType name="ints" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+        <fieldType name="floats" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+        <fieldType name="longs" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+        <fieldType name="doubles" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+
+
+        <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+
+        <fieldType name="tints" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+        <fieldType name="tfloats" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+
+
+        <fieldType name="tlongs" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+        <fieldType name="tdoubles" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0" multiValued="true"/>
+
+
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="dates" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+	<fieldType name="uuid" class="solr.UUIDField" indexed="true" />
+</schema>
