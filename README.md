@@ -2,6 +2,13 @@
 Collection of some algorithms for entity resolution.
 
 
+Written in python. 
+
+
+Refer spark_template.py(tbi) for applying the algorithm.
+
+refer howtoguide for the overview of features.
+
 Character and Edit distance algorithms<br/>
 1. Levenshtein algorithm <br/>
 2. Damerau-Levenshtein algorithm<br/>
@@ -9,7 +16,7 @@ Character and Edit distance algorithms<br/>
 
 
 Affine gap<br/>
-11. Smith-Waterman algorithm<br/>
+11. Smith-Waterman algorithm-tbi<br/>
 
 
 Heuristic based<br/>
