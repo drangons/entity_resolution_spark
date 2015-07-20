@@ -1,18 +1,20 @@
 # entity_resolution_spark
-Collection of some algorithms for entity resolution.
+Collection of some algorithms for entity resolution on string attribute
 
 
 Written in python. 
 
 
-Refer spark_template.py(tbi) for applying the algorithm.
+Refer spark_template.py for applying the algorithm in distributed system.
 
-refer howtoguide for the overview of features.
+Refer howtoguide for the overview of features. 
+
+Complements the algorithms presents in jellyfish package of python.
 
 Character and Edit distance algorithms<br/>
 1. Levenshtein algorithm <br/>
-2. Damerau-Levenshtein algorithm<br/>
-3. Needleman-Wunch distance <br/>
+2. Damerau-Levenshtein algorithm -tbi<br/>
+3. Needleman-Wunch distance-tbi<br/>
 
 
 Affine gap<br/>
@@ -42,11 +44,12 @@ Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension 
 
 |Algorithm| Applicability|
 |---------|---------------|
-|Jaro-winkler|works best for small words (First name or last name)|
+|Jaro-winkler|works best for small words (First name or last name), works best on census names [1]|
 |cosine similarity| words in the document has relations|
-|Soft Tf-idf | handles tokens with smaller corrections|
+|Soft Tf-idf | handles tokens with smaller corrections |
 |Monge-Eklan| consider best matching token for similarity test| 
 
+Once the tbi (to be implemented) algorithms are implemented, I will release a package. 
 
 
 Reference
