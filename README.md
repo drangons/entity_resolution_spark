@@ -14,26 +14,27 @@ Complements the algorithms presents in jellyfish package of python.
 Character and Edit distance algorithms<br/>
 1. Levenshtein algorithm <br/>
 2. Damerau-Levenshtein algorithm -tbi<br/>
-3. Needleman-Wunch distance-tbi<br/>
+3. Needleman-Wunch distance-tbi<br/> - Used for sequence alingment in protiens or DNA samples
 
 
 Affine gap<br/>
-11. Smith-Waterman algorithm-tbi<br/>
+11. Smith-Waterman algorithm-tbi<br/> - Extension to Needleman-Wunch .
 
 
 Heuristic based<br/>
-21. Jaro<br/>
-22. Jaro-Winkler algorithm
+21. Jaro<br/> - use jellyfish pacakage 
+22. Jaro-Winkler algorithm - jellyfish package
 
 
 Token Based approach<br/>
-31. Jaccard similarity<br/>
-32. Cosine similarity<br/>
-33. Q-gram cosine similarity
+31. Jaccard similarity<br/> - Scikit-learn metrics
+32. Cosine similarity<br/> - based on vector space model with tf-idf wieghts
+33. Q-gram cosine similarity - Same as above but generates the token for documents. Best to use in database setup where the documents are short.
 
 Hybrid approach<br/>
-41. Soft Tf-idf - combination of cosine similarity and jaro-winkler method. <br/>
-42. Mogne-Elkan - Jaro-winkler as inner similarity function <br/> 
+41. Soft Tf-idf - combination of cosine similarity and jaro-winkler method. <br/>. Good to use when comparing documents with spell errors.
+42. Mogne-Elkan - Jaro-winkler as inner similarity function <br/> . Best performance of edit distance methods [1]. 
+
 
 
 Edit distance (s,t): The number of minimum edit operation (Insertion,Deletion,Substitution) to tranform s to t. Each operation are wieghted.<br/>
