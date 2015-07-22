@@ -11,47 +11,44 @@ Refer howtoguide for the overview of features.
 
 Complements the algorithms presents in jellyfish package of python.
 
-Character and Edit distance algorithms<br/>
-1. Levenshtein algorithm <br/>
-2. Damerau-Levenshtein algorithm -tbi<br/>
-3. Needleman-Wunch distance-tbi<br/> - Used for sequence alingment in protiens or DNA samples
-
-
-Affine gap<br/>
-11. Smith-Waterman algorithm-tbi<br/> - Extension to Needleman-Wunch .
-
-
-Heuristic based<br/>
-21. Jaro<br/> - use jellyfish pacakage 
-22. Jaro-Winkler algorithm - jellyfish package
-
-
-Token Based approach<br/>
-31. Jaccard similarity<br/> - Scikit-learn metrics
-32. Cosine similarity<br/> - based on vector space model with tf-idf wieghts
-33. Q-gram cosine similarity - Same as above but generates the token for documents. Best to use in database setup where the documents are short.
-
-Hybrid approach<br/>
-41. Soft Tf-idf - combination of cosine similarity and jaro-winkler method. <br/>. Good to use when comparing documents with spell errors.
-42. Mogne-Elkan - Jaro-winkler as inner similarity function <br/> . Best performance of edit distance methods [1]. 
-
-
-
 Edit distance (s,t): The number of minimum edit operation (Insertion,Deletion,Substitution) to tranform s to t. Each operation are wieghted.<br/>
 
 Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension penality and L is the length of the gap. <br/>
 
 
 
-|Algorithm| Applicability|
-|---------|---------------|
-|Jaro-winkler|works best for small words (First name or last name), works best on census names [1]|
-|cosine similarity| words in the document has relations|
-|Soft Tf-idf | handles tokens with smaller corrections |
-|Monge-Eklan| consider best matching token for similarity test| 
+|Algorithm| example|score | scoreApplicability|
+|---------|--------|------|---------------|
+|Jaro-winkler|jaro_winkler("paul johnson","johson paule")| 0.47|works best for small words (First name or last name), works best on census names [1]|
+|Monge-Eklan| monge_score("paul johnson","johson paule")|0.96| Best of the character based method [1]|
+|cosine similarity| Depends on tf-idf weights of terms | depends on number of documets in collection| Similar to search engine. Good results for phrase queries. Can be extended  for topic modelling as well |
+|N-gram cosine similarity|Depends on tf-idf weights of terms||By generating n-gram of the query and the document, we increase the similarity score as both share lot of tokens in common. Suitable for small documents like database text|
+|Soft Tf-idf | depends on TF-idf weight of terms in collection |depends on number of documets in collection|handles tokens with smaller corrections |
+|Monge-Eklan|score("paul johnson","johson paule") |0.96|consider best matching token for similarity test| 
 
-Once the tbi (to be implemented) algorithms are implemented, I will release a package. 
+Once the Needleman-Wunch and Smith-Watermann algorithms are implmented , I will refactor the code and release it as a package.
 
+To apply this algorithms on spark is a five simple steps process,
+
+Step1 : Read two input sources containing data in format id,'string1','string2'
+
+Step2 : Perform pre-processing hacks like lowercase conversion, removing unwanted characters. 
+
+2a. If algorithms requires Tf-idf scores, generate it here and distribute the wieghts
+
+Step3 : Take the cross product of the data sources
+
+Step4 : Apply the differnt algorithm based on application needs
+
+Step 5 : Filter the results based a threshold. A good threshold value can be determined by ROC curve if you have golden dataset. Else start with a lower threshold and experiment.
+
+Step6 : Transform the dataset to the form (idsrc1,idscr2,avg.score) and write the results.
+
+Further development:
+
+
+1. Machine learning algorithms based on score functions (SVM, decision tress)
+2. BM25 algorithm for probabilitic interepresentation of matching algorithm instead of cosine score
 
 Reference
 1. Cohen, W., Ravikumar, P., & Fienberg, S. (2003, August). A comparison of string metrics for matching names and records. In Kdd workshop on data cleaning and object consolidation (Vol. 3, pp. 73-78).<br/>
