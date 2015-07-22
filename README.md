@@ -1,11 +1,7 @@
 # entity_resolution_spark
 Collection of some algorithms for entity resolution on string attribute
 
-
 Written in python. 
-
-
-Refer spark_template.py for applying the algorithm in distributed system.
 
 Refer howtoguide for the overview of features. 
 
@@ -19,12 +15,14 @@ Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension 
 
 |Algorithm| example|score | scoreApplicability|
 |---------|--------|------|---------------|
+|Levenshtein|leven("Peter","Pteer")|0.6| Hello world of approx. matching. Many extensions are possible|
+|Damareu-Levenshtein|dl("Peter","Pteer")|0.8| Transposition of adjacent character extension of Levenshtein|
 |Jaro-winkler|jaro_winkler("paul johnson","johson paule")| 0.47|works best for small words (First name or last name), works best on census names [1]|
 |Monge-Eklan| monge_score("paul johnson","johson paule")|0.96| Best of the character based method [1]|
 |cosine similarity| Depends on tf-idf weights of terms | depends on number of documets in collection| Similar to search engine. Good results for phrase queries. Can be extended  for topic modelling as well |
 |N-gram cosine similarity|Depends on tf-idf weights of terms||By generating n-gram of the query and the document, we increase the similarity score as both share lot of tokens in common. Suitable for small documents like database text|
 |Soft Tf-idf | depends on TF-idf weight of terms in collection |depends on number of documets in collection|handles tokens with smaller corrections |
-|Monge-Eklan|score("paul johnson","johson paule") |0.96|consider best matching token for similarity test| 
+
 
 Once the Needleman-Wunch and Smith-Watermann algorithms are implmented , I will refactor the code and release it as a package.
 
@@ -43,6 +41,8 @@ Step4 : Apply the differnt algorithm based on application needs
 Step 5 : Filter the results based a threshold. A good threshold value can be determined by ROC curve if you have golden dataset. Else start with a lower threshold and experiment.
 
 Step6 : Transform the dataset to the form (idsrc1,idscr2,avg.score) and write the results.
+
+Refer spark_template.py for applying the algorithm in distributed system.
 
 Further development:
 
