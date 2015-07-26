@@ -26,10 +26,12 @@ class MongeEklan():
         Note: In single word string, score = jaro-winkler score
         '''
         cummax = 0
-        maxscore=0
+        
         for ws in s.split(" "):
+            maxscore=0
             for wt in t.split(" "):
                 maxscore = max(maxscore,j.jaro_winkler(ws,wt))
+                #print(maxscore,"--",ws,"--",wt)
             cummax += maxscore
         
         return cummax/len(s.split(" "))
@@ -37,6 +39,7 @@ class MongeEklan():
 def main():
     m = MongeEklan()
     print(m.score("peter christen","christian pedro"))
+    print(m.score("paul johnson","johson paule"))
     
 if __name__ == '__main__':
     main()
