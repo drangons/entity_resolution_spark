@@ -11,6 +11,8 @@ Edit distance (s,t): The number of minimum edit operation (Insertion,Deletion,Su
 
 Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension penality and L is the length of the gap. <br/>
 
+![Alt text](./Entity_resolution.png "Summary of algorithms")
+*Image adopted from Naumann, F. (2013). Similarity measure. Personal collection of F. Naumann, Hasso-Plattner-Institut, Potsdam,Germany
 
 
 |Algorithm| example|score | scoreApplicability|
