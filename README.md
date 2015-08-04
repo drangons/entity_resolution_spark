@@ -21,8 +21,8 @@ Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension 
 |Damareu-Levenshtein|dl("Peter","Pteer")|0.8| Transposition of adjacent character extension of Levenshtein|
 |Jaro-winkler|jaro_winkler("paul johnson","johson paule")| 0.47|works best for small words (First name or last name), works best on census names [1]|
 |Monge-Eklan| monge_score("paul johnson","johson paule")|0.94| Best of the character based method [1]|
-|cosine similarity| Depends on tf-idf weights of terms | depends on number of documets in collection| Similar to search engine. Good results for phrase queries. Can be extended  for topic modelling as well |
-|N-gram cosine similarity|Depends on tf-idf weights of terms||By generating n-gram of the query and the document, we increase the similarity score as both share lot of tokens in common. Suitable for small documents like database text|
+|cosine similarity| sim(['apocalypse now'],['apoclapse now'])| 0.707| Similar to search engine. Good results for phrase queries. Can be extendedfor topic modelling as well |
+|N-gram cosine similarity|sim(['apocalypse now'],['apoclapse now'])|0.78|By generating n-gram of the query and the document, we increase the similarity score as both share lot of tokens in common. Suitable for small documents like database text|
 |Soft Tf-idf | depends on TF-idf weight of terms in collection |depends on number of documets in collection|handles tokens with smaller corrections |
 
 Refer equations.pdf for the algorithm formulation.
