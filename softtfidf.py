@@ -18,8 +18,9 @@ Performance tips
 """
 
 THRESHOLD = 0.9
-CORPUS = ['cat ate food','dog like food']
-
+#CORPUS = ['cat ate food','dog like food']
+#CORPUS = ['apocalypse now']
+CORPUS = []
 import numpy as np
 from  sklearn.feature_extraction.text import TfidfVectorizer
 import jellyfish as jf
@@ -28,30 +29,30 @@ from collections import namedtuple
 class Softtfidf():
     
     def __init__(self):
-        tfidfvector = TfidfVectorizer(tokenizer=lambda x:x.split(" "))
+        self.tfidfvector = TfidfVectorizer(tokenizer=lambda x:x.split(" "))
    
     def buildcorpus(self):
-        return tfidfvector.fit_transform(CORPUS)
+        return self.tfidfvector.fit_transform(CORPUS)
         
     def builddict(self):
-        matrix = builddcorpus()
-        vocabulary = tfidfvector.vocabulary_
+        matrix = self.buildcorpus()
+        vocabulary = self.tfidfvector.vocabulary_
         tfidfdict ={}
-        for docId,doc in enumerate(corpus):
+        for docId,doc in enumerate(CORPUS):
             for word in doc.split(" "):
                 tfidfdict[word]=matrix[(docId,vocabulary[word])]
-    return tfidfdict
+        return tfidfdict
     
-    def score(s,t):
-        
+    def score(self,s,t):
         similar = namedtuple('Similar',['r1','r2','sim'])
         similarity=[]
+        tfidfdict = self.builddict()
         for i,ti in enumerate(s.split(" ")):
             for j,tj in enumerate(t.split(" ")):
                 dist = jf.jaro_winkler(ti,tj)
                 if dist >= THRESHOLD:
                     similarity.append(similar(i,j,
-                                                 dist*tfidfdict[ti]*tfidfdict[tj]))
+                                                 dist*tfidfdict.get(ti)* tfidfdict.get(tj)))
     
         similarity.sort(reverse=True,key=lambda x:x.sim)
 
@@ -81,14 +82,19 @@ class Softtfidf():
 
 #vocabulary = tfidfvector.vocabulary_
 
-def main(**kargs):
+def main():
     """ Driver program """
-    if data in kargs.keys():
-        corpus=kargs[data]
+    #if data in kargs.keys():
+    #    corpus=kargs[data]
     s=Softtfidf()
-    for doc1,doc2 in zips(CORPUS,CORPUS):
-        score = s.score()
-        print(doc1,doc2,score)
+    document1 = 'apoclapse now'
+    document2 = 'apocalypse now'
+    CORPUS.append(document1)
+    CORPUS.append(document2)
+    print(s.score(document1,document2))
+    #for doc1,doc2 in zip(CORPUS,CORPUS):
+    #    score = s.score(doc1,doc2)
+    #    print(doc1,doc2,score)
 
 
 
