@@ -23,7 +23,7 @@ Affine gap: A+(B⋅L). A is the cost of opening the gap. B is the gap extension 
 |Monge-Eklan| monge_score("paul johnson","johson paule")|0.94| Best of the character based method [1]|
 |cosine similarity| sim(['apocalypse now'],['apoclapse now'])| 0.707| Similar to search engine. Good results for phrase queries. Can be extendedfor topic modelling as well |
 |N-gram cosine similarity|sim(['apocalypse now'],['apoclapse now'])|0.78|By generating n-gram of the query and the document, we increase the similarity score as both share lot of tokens in common. Suitable for small documents like database text|
-|Soft Tf-idf | depends on TF-idf weight of terms in collection |depends on number of documets in collection|handles tokens with smaller corrections |
+|Soft Tf-idf | sim(['apocalypse now'],['apoclapse now'])|0.97|handles smaller corrections in tokens with of record. Suitable for short records |
 
 Refer equations.pdf for the algorithm formulation.
 
