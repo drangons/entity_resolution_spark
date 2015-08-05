@@ -6,7 +6,7 @@ This algorithm is best suited for record matching where the record is generally
 smaller compared to document
 
 Steps:
-1. Load the data and compute the tf.idf score of document corpus
+1. Compute the tf.idf score of document corpus
 2. Score method return the soft tf-idf of the query against the record in the
 corpus
 
@@ -32,9 +32,15 @@ class Softtfidf():
         self.tfidfvector = TfidfVectorizer(tokenizer=lambda x:x.split(" "))
    
     def buildcorpus(self):
+        '''
+        Returns sparse vector of tfidf score
+        '''
         return self.tfidfvector.fit_transform(CORPUS)
         
     def builddict(self):
+        '''
+        Returns dictionary of words as key and tfidf score as value
+        '''
         matrix = self.buildcorpus()
         vocabulary = self.tfidfvector.vocabulary_
         tfidfdict ={}
@@ -44,6 +50,9 @@ class Softtfidf():
         return tfidfdict
     
     def score(self,s,t):
+        '''
+        Returns the similarity score
+        '''
         similar = namedtuple('Similar',['r1','r2','sim'])
         similarity=[]
         tfidfdict = self.builddict()
@@ -60,7 +69,7 @@ class Softtfidf():
         tused = np.array([False]*len(t),dtype=bool)
     
     
-        
+        #check that the term are counted only once
         sim = 0.0
         for s in similarity:
             if(sused[s.r1] | tused[s.r2]):
