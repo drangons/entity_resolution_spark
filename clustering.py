@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import re 
 
 
-df = pd.read_csv(r'C:\Users\dikshith\OneDrive\code\measurement_overfoaming.csv',
+df = pd.read_csv(r'./measurements.csv',
             sep=';',header=0)
             
 df.head()
