@@ -1,4 +1,5 @@
 """
+Change Made
 This module implements the soft tf-idf algorithm described in paper
 
 
